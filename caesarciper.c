@@ -22,7 +22,7 @@ int main(void){
 	if (sodium_init() == -1) {
         return 1;
     }
-
+    
     /* Encoding */
 	uint32_t key;
 	char plaintext[26] = "Hello";
