@@ -25,7 +25,7 @@ int main(void){
 
     /* Encoding */
 	uint32_t key;
-	char plaintext[26] = "hello";
+	char plaintext[26] = "Hello";
 	char ciphertext[26];
 	char decodedtext[26];
 	key = randombytes_uniform(MAX) + 1; // to run from 1 to max
@@ -33,23 +33,27 @@ int main(void){
 	for(int i = 0; i < strlen(plaintext); i++){
 		ciphertext[i] = swap_letters(plaintext[i], key);
 	}
-
-	printf("%s\n", ciphertext);
+	printf("Key: %i\n", key);
+	printf("Encoded Text: %s\n", ciphertext);
 
 	/* Decoding */
 	for (int i = 0; i < strlen(ciphertext); i++){
 		decodedtext[i] = swap_letters(ciphertext[i], 26 - key);
 	}
 
-	printf("%s\n", decodedtext);
+	printf("Decoded text(plaintext): %s\n", decodedtext);
 
 }
 
 uint32_t swap_letters(uint32_t letter, uint32_t key){
 	const char alphabet[ALPHABET_LENGTH*2] = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+	const char alphabet_upper[ALPHABET_LENGTH*2] = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	if (islower(letter)){
 		return alphabet[letter - 'a' + key];
+	}
+	else if (isupper(letter)){
+		return alphabet[letter - 'A' + key];
 	}
 	else{
 		return letter;
