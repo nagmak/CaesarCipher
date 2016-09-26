@@ -16,18 +16,36 @@ because an attacker who has the encoded message can either use frequency analysi
 const uint32_t MAX = 26;
 
 uint32_t swap_letters(uint32_t letter, uint32_t key);
-int main(void){
-
+int main(int argc, char **argv){
+	if (argc < 1){ 
+    	return 0; 
+    }
 	/* Initialize Sodium */
 	if (sodium_init() == -1) {
         return 1;
     }
-    
+
+    /* Save user-input as strings */
+    uint32_t strsize = 0;
+    for (int i = 1; i < argc; i++){
+    	strsize += strlen(argv[i]);
+    	if (argc > i+1){ strsize++; }
+    }
+
+    /* Allocate memory for strings */
+    char *plaintext;
+    plaintext = malloc(strsize);
+    plaintext[0] = '\0';
+
+    for (int i = 1; i < argc; i++){
+    	strcat(plaintext, argv[i]);
+    	if (argc > i+1){ strcat(plaintext, " "); }
+    }
+
     /* Encoding */
 	uint32_t key;
-	char plaintext[26] = "Hello";
-	char ciphertext[26];
-	char decodedtext[26];
+	char ciphertext[strlen(plaintext)];
+	char decodedtext[strlen(plaintext)];
 	key = randombytes_uniform(MAX) + 1; // to run from 1 to max
 
 	for(int i = 0; i < strlen(plaintext); i++){
