@@ -17,9 +17,10 @@ const uint32_t MAX = 26;
 
 uint32_t swap_letters(uint32_t letter, uint32_t key);
 int main(int argc, char **argv){
-	if (argc < 1){ 
+	if (argc < 2){ 
     	return 0; 
     }
+
 	/* Initialize Sodium */
 	if (sodium_init() == -1) {
         return 1;
@@ -71,7 +72,7 @@ uint32_t swap_letters(uint32_t letter, uint32_t key){
 		return alphabet[letter - 'a' + key];
 	}
 	else if (isupper(letter)){
-		return alphabet[letter - 'A' + key];
+		return alphabet_upper[letter - 'A' + key];
 	}
 	else{
 		return letter;
