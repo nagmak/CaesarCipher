@@ -26,7 +26,7 @@ int main(int argc, char **argv){
         return 1;
     }
 
-    /* Save user-input as strings */
+    /* Calculates length of the total string of word(s) */
     uint32_t strsize = 0;
     for (int i = 1; i < argc; i++){
     	strsize += strlen(argv[i]);
@@ -74,7 +74,5 @@ uint32_t swap_letters(uint32_t letter, uint32_t key){
 	else if (isupper(letter)){
 		return alphabet_upper[letter - 'A' + key];
 	}
-	else{
-		return letter;
-	}
+	return letter;
 }
