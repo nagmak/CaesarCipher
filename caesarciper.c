@@ -11,7 +11,7 @@ because an attacker who has the encoded message can either use frequency analysi
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <sodium.h>// cryptographically secure for random num generation
+#include <sodium.h>
 #define ALPHABET_LENGTH 26
 const uint32_t MAX = 26;
 
@@ -45,9 +45,28 @@ int main(int argc, char **argv){
 
     /* Encoding */
 	uint32_t key;
+	char user_choice;
 	char ciphertext[strlen(plaintext)];
 	char decodedtext[strlen(plaintext)];
-	key = randombytes_uniform(MAX) + 1; // to run from 1 to max
+
+	printf("Would you like to choose a key, or shall I randomly select it?\n");
+	printf("Type S to select or press any key to continue: ");
+	scanf("%[^\n]c\n", &user_choice);
+
+	if (user_choice == 'S' || user_choice == 's'){
+		printf("Please enter an integer key between 1-26: ");
+		scanf("%d", &key);
+		printf("");
+		
+		while (key == 0 || key > 26){
+			printf("Error. Please enter an integer key between 1-26: ");
+			scanf("%d", &key);
+			printf("");
+		}
+	}
+	else{
+		key = randombytes_uniform(MAX) + 1;
+	}
 
 	for(int i = 0; i < strlen(plaintext); i++){
 		ciphertext[i] = swap_letters(plaintext[i], key);
