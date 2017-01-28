@@ -15,7 +15,11 @@ because an attacker who has the encoded message can either use frequency analysi
 #define ALPHABET_LENGTH 26
 const uint32_t MAX = 26;
 
+/* Initialize functions */
 uint32_t swap_letters(uint32_t letter, uint32_t key);
+uint32_t length_of_words(int argc, char **argv, uint32_t strsize);
+char* mem_allocate_plaintext(char *plaintext, uint32_t strsize, int argc, char**argv);
+
 int main(int argc, char **argv){
 	if (argc < 2){ 
     	return 0; 
@@ -28,20 +32,11 @@ int main(int argc, char **argv){
 
     /* Calculates length of the total string of word(s) */
     uint32_t strsize = 0;
-    for (int i = 1; i < argc; i++){
-    	strsize += strlen(argv[i]);
-    	if (argc > i+1){ strsize++; }
-    }
+    strsize = length_of_words(argc, argv, strsize);
 
     /* Allocate memory for strings */
     char *plaintext;
-    plaintext = malloc(strsize);
-    plaintext[0] = '\0';
-
-    for (int i = 1; i < argc; i++){
-    	strcat(plaintext, argv[i]);
-    	if (argc > i+1){ strcat(plaintext, " "); }
-    }
+    plaintext = mem_allocate_plaintext(plaintext, strsize, argc, argv);
 
     /* Encoding */
 	uint32_t key;
@@ -81,6 +76,25 @@ int main(int argc, char **argv){
 
 	printf("Decoded text(plaintext): %s\n", decodedtext);
 
+}
+
+char* mem_allocate_plaintext(char *plaintext, uint32_t strsize, int argc, char**argv){
+	plaintext = malloc(strsize);
+    plaintext[0] = '\0';
+
+    for (int i = 1; i < argc; i++){
+    	strcat(plaintext, argv[i]);
+    	if (argc > i+1){ strcat(plaintext, " "); }
+    }
+    return plaintext;
+}
+
+uint32_t length_of_words(int argc, char** argv, uint32_t strsize){
+    for (int i = 1; i < argc; i++){
+    	strsize += strlen(argv[i]);
+    	if (argc > i+1){ strsize++; }
+    }
+    return strsize;
 }
 
 uint32_t swap_letters(uint32_t letter, uint32_t key){
