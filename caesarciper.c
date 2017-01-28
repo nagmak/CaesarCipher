@@ -66,6 +66,27 @@ int main(int argc, char **argv){
 
 }
 
+uint32_t length_of_words(int argc, char** argv, uint32_t strsize){
+    for (int i = 1; i < argc; i++){
+    	strsize += strlen(argv[i]);
+    	if (argc > i+1){ strsize++; }
+    }
+    return strsize;
+}
+
+char* mem_allocate_plaintext(char *plaintext, uint32_t strsize, int argc, char**argv){
+	plaintext = malloc(strsize);
+    plaintext[0] = '\0';
+
+    for (int i = 1; i < argc; i++){
+    	strcat(plaintext, argv[i]);
+    	if (argc > i+1){ strcat(plaintext, " "); }
+    }
+    return plaintext;
+}
+
+/* Functions */
+
 uint32_t key_selection(char user_choice, uint32_t key){
 	if (user_choice == 'S' || user_choice == 's'){
 		printf("Please enter an integer key between 1-26: ");
@@ -81,27 +102,8 @@ uint32_t key_selection(char user_choice, uint32_t key){
 	else{
 		key = randombytes_uniform(MAX) + 1;
 	}
-	
+
 	return key;
-}
-
-char* mem_allocate_plaintext(char *plaintext, uint32_t strsize, int argc, char**argv){
-	plaintext = malloc(strsize);
-    plaintext[0] = '\0';
-
-    for (int i = 1; i < argc; i++){
-    	strcat(plaintext, argv[i]);
-    	if (argc > i+1){ strcat(plaintext, " "); }
-    }
-    return plaintext;
-}
-
-uint32_t length_of_words(int argc, char** argv, uint32_t strsize){
-    for (int i = 1; i < argc; i++){
-    	strsize += strlen(argv[i]);
-    	if (argc > i+1){ strsize++; }
-    }
-    return strsize;
 }
 
 uint32_t swap_letters(uint32_t letter, uint32_t key){
