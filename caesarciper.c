@@ -19,6 +19,7 @@ const uint32_t MAX = 26;
 uint32_t swap_letters(uint32_t letter, uint32_t key);
 uint32_t length_of_words(int argc, char **argv, uint32_t strsize);
 char* mem_allocate_plaintext(char *plaintext, uint32_t strsize, int argc, char**argv);
+uint32_t key_selection(char user_choice, uint32_t key);
 
 int main(int argc, char **argv){
 	if (argc < 2){ 
@@ -48,20 +49,7 @@ int main(int argc, char **argv){
 	printf("Type S to select or press any key to continue: ");
 	scanf("%[^\n]c\n", &user_choice);
 
-	if (user_choice == 'S' || user_choice == 's'){
-		printf("Please enter an integer key between 1-26: ");
-		scanf("%d", &key);
-		printf("");
-		
-		while (key == 0 || key > 26){
-			printf("Error. Please enter an integer key between 1-26: ");
-			scanf("%d", &key);
-			printf("");
-		}
-	}
-	else{
-		key = randombytes_uniform(MAX) + 1;
-	}
+	key = key_selection(user_choice, key);
 
 	for(int i = 0; i < strlen(plaintext); i++){
 		ciphertext[i] = swap_letters(plaintext[i], key);
@@ -76,6 +64,25 @@ int main(int argc, char **argv){
 
 	printf("Decoded text(plaintext): %s\n", decodedtext);
 
+}
+
+uint32_t key_selection(char user_choice, uint32_t key){
+	if (user_choice == 'S' || user_choice == 's'){
+		printf("Please enter an integer key between 1-26: ");
+		scanf("%d", &key);
+		printf("");
+		
+		while (key == 0 || key > 26){
+			printf("Error. Please enter an integer key between 1-26: ");
+			scanf("%d", &key);
+			printf("");
+		}
+	}
+	else{
+		key = randombytes_uniform(MAX) + 1;
+	}
+	
+	return key;
 }
 
 char* mem_allocate_plaintext(char *plaintext, uint32_t strsize, int argc, char**argv){
