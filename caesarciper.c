@@ -23,6 +23,8 @@ uint32_t key_selection(char user_choice, uint32_t key);
 
 int main(int argc, char **argv){
 	if (argc < 2){ 
+		printf("Please run the program with your user input string!\n");
+		printf("Eg: ./caesarciper hello world\n");
     	return 0; 
     }
 
